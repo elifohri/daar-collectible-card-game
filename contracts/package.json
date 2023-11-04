@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env DOTENV_CONFIG_PATH=../.env hardhat node --export ../frontend/src/contracts.json --watch",
     "console": "DOTENV_CONFIG_PATH=../.env hardhat console",
-    "compile": "cross-env DOTENV_CONFIG_PATH=../.env hardhat compile",
+    "compile": "cross-env env DOTENV_CONFIG_PATH=../.env hardhat compile",
     "deploy:local": "DOTENV_CONFIG_PATH=../.env hardhat deploy --network localhost --export ../frontend/src/contracts.json",
     "deploy:staging": "DOTENV_CONFIG_PATH=../.env hardhat deploy --network kovan",
     "deploy:production": "DOTENV_CONFIG_PATH=../.env hardhat deploy --network polygon",
