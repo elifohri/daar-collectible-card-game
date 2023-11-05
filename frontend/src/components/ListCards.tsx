@@ -1,7 +1,6 @@
 function ListCards() {
 
-  let cards = ["barbie", "ken", "pokemon", "spiderman"];
-  //cards = []; 
+  let cards = []; 
   const message = cards.length === 0 ? <p>No item found for this user.</p> : null;
 
   return (

@@ -6,7 +6,7 @@ async function createCollectionAndMint() {
     console.log(`Got contract MainContract at address: ${mainContract.address}`)
     console.log("Withdrawing from contract...")
 
-    const newCollection = await mainContract.createCollection("wolverine", 3)
+    const newCollection = await mainContract.createCollection("Pikachu", 16)
     console.log(`New collection created by admin from contract address: ${mainContract.address}`)
     const newCollectionTx = await newCollection.wait(1)
     const collectionName = newCollectionTx.events[1].args._name
