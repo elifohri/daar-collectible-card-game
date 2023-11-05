@@ -5,7 +5,6 @@ import * as main from '@/lib/main'
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MainPage } from "./MainPage";
-import { MarketPlace } from "./MarketPlace";
 import { ErrorPage } from "./ErrorPage";
 import { useWallet } from "./utilities"
 
@@ -28,6 +27,7 @@ const useAffect = (
   }, dependencies)
 }
 
+
 export const App = () => {
   const wallet = useWallet()
   const adminAccount = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'; 
@@ -40,7 +40,6 @@ export const App = () => {
     <Routes>
       <Route path="/" >
         <Route index element={<MainPage />} />
-        <Route index element={<MarketPlace />} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
     </Routes>

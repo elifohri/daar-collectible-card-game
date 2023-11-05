@@ -5,12 +5,12 @@ import "./Ownable.sol";
 import "./Collection.sol";
 import "./Card.sol";
 
-contract Main is Ownable{
+contract Main is Ownable {
 
     // variables
     uint256 public mintedCardCount;
     uint256 public collectionCount;
-    string public constant TOKEN_URI = "dog.json";
+    string public constant TOKENURI = "dog";
 
     constructor() {
         collectionCount = 0; 
@@ -36,6 +36,10 @@ contract Main is Ownable{
     mapping (address => uint) public ownerCardCount;        // _balances            // look up how many cards an owner has (adderss:0x34556456... ==> count:3)
     mapping (uint => address) public cardApprovals;         // _tokenApprovals      // look up which address is approved for transfer for an id (id:3 ==> address:0x2343247...)
 
+    // events
+    event eventCollection(string _name, int _cardCount);
+    event eventCard(string _name, uint256 mintedCardCount);
+
     // generates collections with number of cards desired
     // this function has the onlyOwner modifier in order to be called only by the owner of the contract
     function createCollection(string calldata _name, int _cardCount) public onlyOwner returns(Collection){
@@ -44,12 +48,14 @@ contract Main is Ownable{
         collections.push(cardCollection);
         collectionContracts[collectionCount] = cardCollection;
         collectionCount++;
+        emit eventCollection(_name, _cardCount);
         for(i = 0; i < _cardCount; i++) {
-            NFTCard newCard = cardCollection.mintNft(_name, mintedCardCount, TOKEN_URI);
+            NFTCard newCard = cardCollection.mintNft(_name, mintedCardCount, TOKENURI);
             cards.push(newCard);
             cardToOwner[mintedCardCount] = msg.sender;          // adds the card creator to the array
             ownerCardCount[msg.sender]++;                       // increases the number of cards that the card creator has
             mintedCardCount++;
+            emit eventCard(_name, mintedCardCount);
         }
         return cardCollection;
     }
