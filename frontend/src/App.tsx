@@ -3,6 +3,12 @@ import styles from './styles.module.css'
 import * as ethereum from '@/lib/ethereum'
 import * as main from '@/lib/main'
 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { MainPage } from "./MainPage";
+import { MarketPlace } from "./MarketPlace";
+import { ErrorPage } from "./ErrorPage";
+import { useWallet } from "./utilities"
+
 type Canceler = () => void
 const useAffect = (
   asyncEffect: () => Promise<Canceler | void>,
@@ -22,28 +28,22 @@ const useAffect = (
   }, dependencies)
 }
 
-const useWallet = () => {
-  const [details, setDetails] = useState<ethereum.Details>()
-  const [contract, setContract] = useState<main.Main>()
-  useAffect(async () => {
-    const details_ = await ethereum.connect('metamask')
-    if (!details_) return
-    setDetails(details_)
-    const contract_ = await main.init(details_)
-    if (!contract_) return
-    setContract(contract_)
-  }, [])
-  return useMemo(() => {
-    if (!details || !contract) return
-    return { details, contract }
-  }, [details, contract])
-}
-
 export const App = () => {
   const wallet = useWallet()
-  return (
-    <div className={styles.body}>
-      <h1>Welcome to Pokémon TCG</h1>
-    </div>
+  const adminAccount = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'; 
+
+  const isEmptyAccount = !wallet?.details.account;
+  const isAdmin = wallet?.details.account === adminAccount ;
+  console.log("app")
+  return(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" >
+        <Route index element={<MainPage />} />
+        <Route index element={<MarketPlace />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
   )
 }
